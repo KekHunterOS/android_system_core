@@ -17,6 +17,18 @@ LOCAL_POST_INSTALL_CMD := ln -sf /system/bin/init $(TARGET_ROOT_OUT)/init
 include $(BUILD_PREBUILT)
 
 #######################################
+# init.nethunter.rc (needs command: make nhrc)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := init.nethunter.rc
+LOCAL_MODULE_TAGS  := optional
+LOCAL_SRC_FILES := init.nethunter.rc
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
+
+include $(BUILD_PREBUILT)
+
+#######################################
 # init-debug.rc
 include $(CLEAR_VARS)
 
