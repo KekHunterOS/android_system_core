@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 The Android Open Source Project
+ * Copyright (C) 2019 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,31 @@
 
 #pragma once
 
-#include "errno.h"
+#include <aidl/android/adbroot/BnADBRootService.h>
+#include <android/binder_status.h>
+#include <utils/Mutex.h>
 
-#include "android-base/macros.h"
-
+namespace aidl {
 namespace android {
-namespace base {
+namespace adbroot {
 
-class ErrnoRestorer {
- public:
-  ErrnoRestorer() : saved_errno_(errno) {}
+using ::android::Mutex;
 
-  ~ErrnoRestorer() { errno = saved_errno_; }
+class ADBRootService : public BnADBRootService {
+  public:
+    ADBRootService();
 
-  // Allow this object to be used as part of && operation.
-  explicit operator bool() const { return true; }
+    static void Register();
 
- private:
-  const int saved_errno_;
+    ndk::ScopedAStatus setEnabled(bool enabled) override;
+    ndk::ScopedAStatus getEnabled(bool* _aidl_return) override;
 
-  DISALLOW_COPY_AND_ASSIGN(ErrnoRestorer);
+    static char const* getServiceName() { return "adbroot_service"; }
+  private:
+    bool enabled_;
+    Mutex lock_;
 };
 
-}  // namespace base
+}  // namespace adbroot
 }  // namespace android
+}  // namespace aidl

@@ -37,7 +37,7 @@ FstabEntry* GetEntryForPath(Fstab* fstab, const std::string& path) {
     if (path.empty()) return nullptr;
     std::string str(path);
     while (true) {
-        auto entry = GetEntryForMountPoint(fstab, str);
+        auto entry = GetEntryForMountPointTryDetectFs(fstab, str);
         if (entry != nullptr) return entry;
         if (str == "/") break;
         auto slash = str.find_last_of('/');
@@ -118,15 +118,6 @@ bool EnsurePathMounted(Fstab* fstab, const std::string& path, const std::string&
     }
 
     int result = fs_mgr_do_mount_one(*rec, mount_point);
-    if (result == -1 && rec->fs_mgr_flags.formattable) {
-        PERROR << "Failed to mount " << mount_point << "; formatting";
-        bool crypt_footer = rec->is_encryptable() && rec->key_loc == "footer";
-        if (fs_mgr_do_format(*rec, crypt_footer) != 0) {
-            PERROR << "Failed to format " << mount_point;
-            return false;
-        }
-        result = fs_mgr_do_mount_one(*rec, mount_point);
-    }
 
     if (result == -1) {
         PERROR << "Failed to mount " << mount_point;

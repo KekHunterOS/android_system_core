@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 The Android Open Source Project
+ * Copyright (C) 2019 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package android.adbroot;
 
-#pragma once
-
-#include "errno.h"
-
-#include "android-base/macros.h"
-
-namespace android {
-namespace base {
-
-class ErrnoRestorer {
- public:
-  ErrnoRestorer() : saved_errno_(errno) {}
-
-  ~ErrnoRestorer() { errno = saved_errno_; }
-
-  // Allow this object to be used as part of && operation.
-  explicit operator bool() const { return true; }
-
- private:
-  const int saved_errno_;
-
-  DISALLOW_COPY_AND_ASSIGN(ErrnoRestorer);
-};
-
-}  // namespace base
-}  // namespace android
+/** {@hide} */
+interface IADBRootService {
+    void setEnabled(boolean enabled);
+    boolean getEnabled();
+}
