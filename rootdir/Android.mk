@@ -12,6 +12,18 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/init
 include $(BUILD_PREBUILT)
 
 #######################################
+# init.nethunter.rc
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := init.nethunter.rc
+LOCAL_SRC_FILES := $(LOCAL_MODULE)
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
+
+include $(BUILD_PREBUILT)
+
+#######################################
 # asan.options
 ifneq ($(filter address,$(SANITIZE_TARGET)),)
 
@@ -81,6 +93,7 @@ LOCAL_POST_INSTALL_CMD := mkdir -p $(addprefix $(TARGET_ROOT_OUT)/, \
     linkerconfig $(BOARD_ROOT_EXTRA_FOLDERS)); \
     ln -sf /system/bin $(TARGET_ROOT_OUT)/bin; \
     ln -sf /system/etc $(TARGET_ROOT_OUT)/etc; \
+    ln -sf /system/lib $(TARGET_ROOT_OUT)/lib; \
     ln -sf /data/user_de/0/com.android.shell/files/bugreports $(TARGET_ROOT_OUT)/bugreports; \
     ln -sfn /sys/kernel/debug $(TARGET_ROOT_OUT)/d; \
     ln -sf /storage/self/primary $(TARGET_ROOT_OUT)/sdcard

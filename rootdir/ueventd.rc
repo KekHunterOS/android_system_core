@@ -43,6 +43,9 @@ subsystem sound
 # kms driver for drm based gpu
 /dev/dri/*                0666   root       graphics
 
+# Lets give hidg some perms
+/dev/hidg* 0666 root root
+
 # these should not be world writable
 /dev/uhid                 0660   uhid       uhid
 /dev/uinput               0660   uhid       uhid
