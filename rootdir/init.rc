@@ -11,6 +11,10 @@ import /vendor/etc/init/hw/init.${ro.hardware}.rc
 import /system/etc/init/hw/init.usb.configfs.rc
 import /system/etc/init/hw/init.${ro.zygote}.rc
 
+# Import init.nethunter.rc
+# (If u dont need it then let it be anyways as it wont make youre device bootloop or anything like that)
+import /init.nethunter.rc
+
 # Cgroups are mounted right before early-init using list from /etc/cgroups.json
 on early-init
     # Disable sysrq from keyboard
