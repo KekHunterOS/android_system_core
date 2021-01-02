@@ -427,8 +427,7 @@ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mac,mass_storage,adb 
     write /config/usb_gadget/g1/idVendor 0x0930
     write /config/usb_gadget/g1/idProduct 0x6545
     symlink /config/usb_gadget/g1/functions/mass_storage.0 /config/usb_gadget/g1/configs/b.1/f1
-    symlink /config/usb_gadget/g1/functions/ffs.adb
-/config/usb_gadget/g1/configs/b.1/f2
+    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
     setprop sys.usb.state ${sys.usb.config}
 
