@@ -14,12 +14,12 @@ on boot
     write /config/usb_gadget/g1/functions/hid.0/protocol "1"
     write /config/usb_gadget/g1/functions/hid.0/subclass "1"
     write /config/usb_gadget/g1/functions/hid.0/report_length "8"
-    copy /keyboard-descriptor.bin /config/usb_gadget/g1/functions/hid.0/report_desc
+    copy /system/etc/keyboard-descriptor.bin /config/usb_gadget/g1/functions/hid.0/report_desc
     mkdir /config/usb_gadget/g1/functions/hid.1
     write /config/usb_gadget/g1/functions/hid.1/protocol "1"
     write /config/usb_gadget/g1/functions/hid.1/subclass "2"
     write /config/usb_gadget/g1/functions/hid.1/report_length "4"
-    copy /mouse-descriptor.bin /config/usb_gadget/g1/functions/hid.1/report_desc
+    copy /system/etc/mouse-descriptor.bin /config/usb_gadget/g1/functions/hid.1/report_desc
 
 # USB Attack for NetHunter
 
