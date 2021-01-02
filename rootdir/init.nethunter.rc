@@ -1,9 +1,12 @@
 # Kali NetHunter init
 
+# This script is from: https://gitlab.com/kalilinux/nethunter/build-scripts/kali-nethunter-devices/-/tree/master/ten/oneplus6-oos
+# The binaries for mouse and keyboard are alos from there
+
 on init
     export TERMINFO /system/etc/terminfo
     export TERM linux
-
+    
 on boot 
     mkdir /config/usb_gadget/g1/functions/acm.usb0
     mkdir /config/usb_gadget/g1/functions/ecm.usb0
@@ -11,14 +14,14 @@ on boot
     write /config/usb_gadget/g1/functions/hid.0/protocol "1"
     write /config/usb_gadget/g1/functions/hid.0/subclass "1"
     write /config/usb_gadget/g1/functions/hid.0/report_length "8"
-    copy  /system/poco_hunter/kdescriptor.bin /config/usb_gadget/g1/functions/hid.0/report_desc
+    copy /keyboard-descriptor.bin /config/usb_gadget/g1/functions/hid.0/report_desc
     mkdir /config/usb_gadget/g1/functions/hid.1
     write /config/usb_gadget/g1/functions/hid.1/protocol "1"
     write /config/usb_gadget/g1/functions/hid.1/subclass "2"
     write /config/usb_gadget/g1/functions/hid.1/report_length "4"
-    copy  /system/poco_hunter/mdescriptor.bin /config/usb_gadget/g1/functions/hid.1/report_desc
+    copy /mouse-descriptor.bin /config/usb_gadget/g1/functions/hid.1/report_desc
 
-# USB Attack for OnePlus5
+# USB Attack for NetHunter
 
 # -- Against Windows OS -- #
 ### MTP + HID ###
@@ -39,7 +42,7 @@ on property:sys.usb.config=win,mtp,hid && property:sys.usb.configfs=1
     setprop sys.usb.state ${sys.usb.config}
 
 ### MTP + HID + ADB ###
-on property:sys.usb.config=win,mpt,hid,adb && property:sys.usb.configfs=1
+on property:sys.usb.config=win,mtp,hid,adb && property:sys.usb.configfs=1
     start adbd
     
 on property:sys.usb.ffs.ready=1 && property:sys.usb.config=win,mtp,hid,adb && property:sys.usb.configfs=1
@@ -320,7 +323,7 @@ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=win,rndis,hid,mass_st
 
 # -- Against Mac OS -- #
 ### MTP + HID ###
-on property:sys.usb.config=win,mtp,hid && property:sys.usb.configfs=1
+on property:sys.usb.config=mac,mtp,hid && property:sys.usb.configfs=1
     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp_hid"
     rm /config/usb_gadget/g1/configs/b.1/f1
     rm /config/usb_gadget/g1/configs/b.1/f2
@@ -337,10 +340,10 @@ on property:sys.usb.config=win,mtp,hid && property:sys.usb.configfs=1
     setprop sys.usb.state ${sys.usb.config}
 
 ### MTP + HID + ADB ###
-on property:sys.usb.config=win,mpt,hid,adb && property:sys.usb.configfs=1
+on property:sys.usb.config=mac,mtp,hid,adb && property:sys.usb.configfs=1
     start adbd
     
-on property:sys.usb.ffs.ready=1 && property:sys.usb.config=win,mtp,hid,adb && property:sys.usb.configfs=1
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mac,mtp,hid,adb && property:sys.usb.configfs=1
     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp_hid_adb"
     rm /config/usb_gadget/g1/configs/b.1/f1
     rm /config/usb_gadget/g1/configs/b.1/f2
@@ -424,7 +427,8 @@ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mac,mass_storage,adb 
     write /config/usb_gadget/g1/idVendor 0x0930
     write /config/usb_gadget/g1/idProduct 0x6545
     symlink /config/usb_gadget/g1/functions/mass_storage.0 /config/usb_gadget/g1/configs/b.1/f1
-    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
+    symlink /config/usb_gadget/g1/functions/ffs.adb
+/config/usb_gadget/g1/configs/b.1/f2
     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
     setprop sys.usb.state ${sys.usb.config}
 
@@ -624,5 +628,3 @@ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mac,ecm,hid,mass_stor
 
  # -- End of Mac's Part -- #
  # -- Nethunter HID END -- #
-
-
